@@ -6,7 +6,5 @@
    utility classes used inside its components survive the JIT prune. */
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
-/* Map remark-dgmo's `[data-theme="dark"]` selector onto Fumadocs UI's
-   `html.dark` (next-themes default attribute="class"). Self-contained —
-   no need to also import 'remark-dgmo/client.css'. */
-@import 'fumadocs-dgmo/client.css';
+/* fumadocs-dgmo's stylesheet is auto-imported by the <DgmoClient />
+   component mounted in app/layout.tsx — no manual @import needed. */

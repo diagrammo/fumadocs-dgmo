@@ -14,7 +14,7 @@ pnpm add fumadocs-dgmo @diagrammo/dgmo
 
 ## Quick start
 
-Three small edits to your Fumadocs site.
+Two small edits to your Fumadocs site.
 
 ### 1. `source.config.ts` — wire the remark plugin
 
@@ -39,17 +39,7 @@ mdxOptions: withDgmo({ remarkPlugins: [myOtherPlugin] }),
 
 `remark-dgmo` is prepended so it runs before any downstream remark plugin.
 
-### 2. `app/global.css` — import the stylesheet
-
-```css
-@import 'fumadocs-ui/css/neutral.css';
-@import 'fumadocs-ui/css/preset.css';
-@import 'fumadocs-dgmo/client.css';
-```
-
-The shipped `fumadocs-dgmo/client.css` is generated from `remark-dgmo/client.css` at build time, with `[data-theme="dark"]` rewritten to `html.dark` — the attribute Fumadocs UI's `next-themes` default uses. No manual override required.
-
-### 3. `app/layout.tsx` — mount the client re-binder
+### 2. `app/layout.tsx` — mount the client component
 
 ```tsx
 import './global.css';
@@ -71,7 +61,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 }
 ```
 
-`<DgmoClient />` is a no-render Client Component that runs `bindDgmo()` on initial mount and on every soft route change. Next's app router doesn't refire `DOMContentLoaded` semantics on client-side navigation, so without this you'd lose viewBox tightening and showcase-mode copy buttons after the first SPA transition.
+`<DgmoClient />` is a no-render Client Component that does two things:
+
+1. Runs `bindDgmo()` on initial mount and on every soft route change — Next's app router doesn't refire `DOMContentLoaded` semantics on client-side navigation, so without this you'd lose viewBox tightening and showcase-mode copy buttons after the first SPA transition.
+2. Side-effect-imports the shipped `fumadocs-dgmo/client.css` so Next's CSS pipeline picks it up automatically. The stylesheet is generated from `remark-dgmo/client.css` at build time with `[data-theme="dark"]` rewritten to `html.dark` — the attribute Fumadocs UI's `next-themes` default uses. No manual `@import` required.
 
 That's the whole integration.
 
@@ -129,7 +122,7 @@ See the [`remark-dgmo` README](https://github.com/diagrammo/remark-dgmo) for the
 
 ## Working reference site
 
-[`tests/fixture/`](./tests/fixture/) is a complete minimal Fumadocs site running this wrapper. Copy [`tests/fixture/source.config.ts`](./tests/fixture/source.config.ts), [`tests/fixture/app/layout.tsx`](./tests/fixture/app/layout.tsx), and [`tests/fixture/app/global.css`](./tests/fixture/app/global.css) as templates for your own site.
+[`tests/fixture/`](./tests/fixture/) is a complete minimal Fumadocs site running this wrapper. Copy [`tests/fixture/source.config.ts`](./tests/fixture/source.config.ts) and [`tests/fixture/app/layout.tsx`](./tests/fixture/app/layout.tsx) as templates for your own site.
 
 ```bash
 git clone https://github.com/diagrammo/fumadocs-dgmo
@@ -144,14 +137,14 @@ Opens at http://localhost:3000. Navigate to `/docs/diagrams` for four example di
 
 `fumadocs-dgmo/client.css` is the shipped stylesheet. It's the same three visibility rules + sizing + showcase chrome as upstream `remark-dgmo/client.css`, but the dark-mode selector is rewritten from `[data-theme="dark"]` to `html.dark` — the attribute Fumadocs UI's `next-themes` integration uses by default.
 
-You `@import` it in your `app/global.css`. Next.js's CSS pipeline extracts the rules into the page bundle.
+It's auto-imported by `<DgmoClient />` via a side-effect `import 'fumadocs-dgmo/client.css'`. Next's CSS pipeline picks the import up from the Client Component module and extracts it into the page bundle. If you prefer to manage the import yourself, drop in the manual config path below and `@import 'fumadocs-dgmo/client.css'` from your `app/global.css` instead.
 
 ## Custom color-mode selector
 
 If you've configured `next-themes` with a non-default attribute (e.g. `attribute="data-theme"`), the shipped CSS won't match. Two options:
 
 1. Switch back to the default (Fumadocs UI's preset CSS expects `html.dark`).
-2. Import `remark-dgmo/client.css` directly (keys on `[data-theme="dark"]`) and override the Fumadocs UI preset's dark-mode rules to match. This is uncommon and usually means the host site is fighting Fumadocs UI rather than this wrapper.
+2. Skip `<DgmoClient />`'s auto-import and instead `@import 'remark-dgmo/client.css'` directly in `app/global.css` (keys on `[data-theme="dark"]`), then override the Fumadocs UI preset's dark-mode rules to match. This is uncommon and usually means the host site is fighting Fumadocs UI rather than this wrapper.
 
 See the "Custom color-mode selector" section in the [`remark-dgmo` README](https://github.com/diagrammo/remark-dgmo) for the underlying selectors.
 
@@ -159,7 +152,7 @@ See the "Custom color-mode selector" section in the [`remark-dgmo` README](https
 
 1. `withDgmo` prepends `remark-dgmo` (with `mdx: true`) to your `mdxOptions.remarkPlugins` array. `fumadocs-mdx`'s build pipeline runs the plugin during MDX compilation.
 2. For each fenced `dgmo` block, `remark-dgmo` calls `render()` from `@diagrammo/dgmo` once per theme (under default `colorMode: 'auto'`) and replaces the block with an `mdxJsxFlowElement` carrying the rendered SVG wrappers via `dangerouslySetInnerHTML`.
-3. The shipped CSS, imported through `app/global.css`, gates the wrappers' visibility on `html.dark`. Toggling Fumadocs UI's theme switcher flips the class, which flips visibility.
+3. The shipped CSS, side-effect-imported by `<DgmoClient />`, gates the wrappers' visibility on `html.dark`. Toggling Fumadocs UI's theme switcher flips the class, which flips visibility.
 4. The `<DgmoClient />` Client Component subscribes to `usePathname()` and re-runs `bindDgmo()` on every soft navigation. The function tightens each diagram's `viewBox` to content bounds and wires showcase-mode copy buttons.
 
 All rendering happens at build time. The browser ships only inline SVG + the small CSS rules + a ~1.5 KB `bindDgmo` payload.

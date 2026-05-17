@@ -12,15 +12,16 @@ A minimal Fumadocs site (Next.js app router) wired with `fumadocs-dgmo`,
      `remark-dgmo`'s `mdx` option to `true` so rendered blocks come
      through as `mdxJsxFlowElement` nodes — MDX rejects raw `html`
      nodes with `Cannot handle unknown node "raw"`.
-   - **`app/global.css`** does `@import 'fumadocs-dgmo/client.css'`.
-     The shipped stylesheet rewrites `[data-theme="dark"]` → `html.dark`
-     so it works with Fumadocs UI's next-themes default (`attribute="class"`).
-     No need to also import `remark-dgmo/client.css`.
    - **`app/layout.tsx`** renders `<DgmoClient />` inside `<RootProvider>`.
-     The component is a no-render Client Component that re-runs
-     `bindDgmo()` on every soft navigation. Without it, viewBox
+     The component is a no-render Client Component that does two things:
+     re-runs `bindDgmo()` on every soft navigation (without it, viewBox
      tightening and showcase-mode copy buttons stop working after the
-     first client-side route change.
+     first client-side route change), and side-effect-imports
+     `fumadocs-dgmo/client.css` so Next's CSS pipeline picks up the
+     theme-aware stylesheet automatically. No manual `@import` in
+     `global.css` required — the shipped stylesheet rewrites
+     `[data-theme="dark"]` → `html.dark` so it works with Fumadocs UI's
+     next-themes default (`attribute="class"`).
 
 2. **Test fixture for plugin development.** [`content/docs/diagrams.mdx`](./content/docs/diagrams.mdx)
    exercises four canonical shapes:

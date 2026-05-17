@@ -33,7 +33,17 @@ export default defineConfig([
     sourcemap: true,
     target: 'es2022',
     banner: { js: "'use client';" },
-    external: ['@diagrammo/dgmo', 'react', 'next', 'next/navigation'],
+    // `fumadocs-dgmo/client.css` is a self-reference picked up by Next's
+    // CSS pipeline at consumer build time — esbuild must NOT try to
+    // resolve or bundle it (the file lives in our own dist/, written by
+    // scripts/build-css.mjs after the JS build finishes).
+    external: [
+      '@diagrammo/dgmo',
+      'react',
+      'next',
+      'next/navigation',
+      'fumadocs-dgmo/client.css',
+    ],
     // `remark-dgmo` is intentionally INLINED into the client bundle
     // (~2.6 KB) so consumers don't have to resolve a bare
     // `remark-dgmo/client.js` specifier from inside our linked package

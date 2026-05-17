@@ -53,6 +53,18 @@ describe('fumadocs-dgmo built artifacts', () => {
     expect(rules).not.toMatch(/\[data-theme="dark"\]/);
   });
 
+  it('the client bundle carries a side-effect import of client.css', () => {
+    // The CSS auto-import is the entire reason install collapsed from
+    // 3 steps to 2 — if tsup ever decides to bundle (rather than
+    // externalize) the self-reference, the consumer would lose theme
+    // styling silently.
+    const clientPath = require.resolve('fumadocs-dgmo/client');
+    const body = readFileSync(clientPath, 'utf8');
+    expect(body).toMatch(
+      /import\s+["']fumadocs-dgmo\/client\.css["']/
+    );
+  });
+
   it('the client bundle inlines remark-dgmo (no bare specifier left over)', () => {
     // tsup's noExternal: ['remark-dgmo'] inlines the ~2.6 KB bindDgmo
     // payload so Turbopack doesn't have to traverse the two-hop link:
