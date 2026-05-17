@@ -1,0 +1,99 @@
+{
+  "name": "fumadocs-dgmo",
+  "version": "0.1.0",
+  "description": "Fumadocs integration to render DGMO diagrams from fenced code blocks at build time. Ships a `withDgmo` helper for source.config.ts plus a client component for app-router route-change rebinding.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diagrammo/fumadocs-dgmo.git"
+  },
+  "homepage": "https://github.com/diagrammo/fumadocs-dgmo#readme",
+  "bugs": {
+    "url": "https://github.com/diagrammo/fumadocs-dgmo/issues"
+  },
+  "keywords": [
+    "fumadocs",
+    "fumadocs-mdx",
+    "next",
+    "nextjs",
+    "dgmo",
+    "diagrammo",
+    "diagram",
+    "diagrams",
+    "mdx",
+    "markdown",
+    "remark"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js",
+      "default": "./dist/config.js"
+    },
+    "./remark": {
+      "types": "./dist/remark.d.ts",
+      "import": "./dist/remark.js",
+      "default": "./dist/remark.js"
+    },
+    "./client": {
+      "types": "./dist/fumadocs-client.d.ts",
+      "import": "./dist/fumadocs-client.js",
+      "default": "./dist/fumadocs-client.js"
+    },
+    "./client.css": "./dist/client.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/build-css.mjs",
+    "postbuild": "test -f dist/client.css && test -f dist/fumadocs-client.js",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "pretest": "pnpm build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "pnpm build && cd tests/fixture && pnpm install --no-frozen-lockfile && pnpm exec next build --webpack && node ../../scripts/assert-build-output.mjs",
+    "prepublishOnly": "pnpm build && pnpm test"
+  },
+  "peerDependencies": {
+    "@diagrammo/dgmo": "^0.15.0",
+    "fumadocs-mdx": "^15.0.0",
+    "next": "^15.0.0 || ^16.0.0",
+    "react": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "fumadocs-mdx": { "optional": false },
+    "next": { "optional": false },
+    "react": { "optional": false }
+  },
+  "dependencies": {
+    "remark-dgmo": "link:../remark-dgmo"
+  },
+  "devDependencies": {
+    "@diagrammo/dgmo": "^0.15.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "fumadocs-mdx": "^15.0.0",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  }
+}

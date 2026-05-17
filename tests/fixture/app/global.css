@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/* Tell Tailwind to scan Fumadocs UI's compiled JS for class names so
+   utility classes used inside its components survive the JIT prune. */
+@source '../node_modules/fumadocs-ui/dist/**/*.js';
+
+/* Map remark-dgmo's `[data-theme="dark"]` selector onto Fumadocs UI's
+   `html.dark` (next-themes default attribute="class"). Self-contained —
+   no need to also import 'remark-dgmo/client.css'. */
+@import 'fumadocs-dgmo/client.css';

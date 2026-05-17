@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+tests/fixture/.next
+tests/fixture/.source
+tests/fixture/out
+tests/fixture/node_modules
