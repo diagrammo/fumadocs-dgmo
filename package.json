@@ -1,6 +1,6 @@
 {
   "name": "fumadocs-dgmo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fumadocs integration to render DGMO diagrams from fenced code blocks at build time. Ships a `withDgmo` helper for source.config.ts plus a client component for app-router route-change rebinding.",
   "license": "MIT",
   "repository": {

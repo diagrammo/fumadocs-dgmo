@@ -51,14 +51,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Build first so tests/integration.test.ts can resolve the wrapper's
+      # own exports through dist/ (the same reason ci.yml builds first).
+      - name: Build
+        run: pnpm build
+
+      # Stub the fixture's `fumadocs-dgmo` self-symlink so the integration
+      # test's import of `tests/fixture/source.config.ts` (which itself
+      # imports `fumadocs-dgmo/config`) resolves without a 12k-line
+      # fixture install. Mirrors docusaurus-plugin-dgmo's release.yml.
+      - name: Stub fixture self-link
+        run: mkdir -p tests/fixture/node_modules && ln -sfn ../../.. tests/fixture/node_modules/fumadocs-dgmo
+
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Unit tests
         run: pnpm test
-
-      - name: Build
-        run: pnpm build
 
       - name: Fixture build (Next static export)
         run: pnpm test:e2e

@@ -23,14 +23,26 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Build first so tests/integration.test.ts can resolve
+      # `fumadocs-dgmo/config` and `fumadocs-dgmo/client` through the
+      # exports map (the targets live under dist/, which `pretest` would
+      # populate too, but CI runs typecheck before pretest fires).
+      - name: Build
+        run: pnpm build
+
+      # The fixture's source.config.ts self-imports `fumadocs-dgmo/config`.
+      # Locally that resolves through `tests/fixture/node_modules/fumadocs-dgmo`
+      # (a symlink pnpm creates from the fixture's `link:../..` dep). CI
+      # only installs the wrapper's own deps, so we stub the symlink
+      # directly rather than running a 12k-line fixture install.
+      - name: Stub fixture self-link
+        run: mkdir -p tests/fixture/node_modules && ln -sfn ../../.. tests/fixture/node_modules/fumadocs-dgmo
+
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Unit tests
         run: pnpm test
-
-      - name: Build
-        run: pnpm build
 
       - name: Fixture build (Next static export)
         run: pnpm test:e2e
