@@ -11,6 +11,12 @@ export default defineConfig([
       config: 'src/config.ts',
     },
     format: ['esm'],
+    // Use the build-only tsconfig (rootDir: ./src, no tests/) so tsc's
+    // emit doesn't error on tests/ when resolving the
+    // `fumadocs-dgmo/client.css` self-reference; the main tsconfig.json
+    // includes tests/ for `pnpm typecheck`, which would conflict with
+    // rootDir if we tried to share a single config.
+    tsconfig: './tsconfig.build.json',
     dts: true,
     clean: true,
     sourcemap: true,
@@ -28,6 +34,12 @@ export default defineConfig([
   {
     entry: { 'fumadocs-client': 'src/fumadocs-client.tsx' },
     format: ['esm'],
+    // Use the build-only tsconfig (rootDir: ./src, no tests/) so tsc's
+    // emit doesn't error on tests/ when resolving the
+    // `fumadocs-dgmo/client.css` self-reference; the main tsconfig.json
+    // includes tests/ for `pnpm typecheck`, which would conflict with
+    // rootDir if we tried to share a single config.
+    tsconfig: './tsconfig.build.json',
     dts: true,
     clean: false,
     sourcemap: true,
