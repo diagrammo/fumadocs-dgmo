@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       remark-dgmo:
-        specifier: link:../remark-dgmo
-        version: link:../remark-dgmo
+        specifier: ^0.2.2
+        version: 0.2.2(@diagrammo/dgmo@0.15.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
     devDependencies:
       '@diagrammo/dgmo':
         specifier: ^0.15.0
@@ -1913,6 +1913,12 @@ packages:
   rehype-recma@1.0.0:
     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
 
+  remark-dgmo@0.2.2:
+    resolution: {integrity: sha512-cFKsa7YXylFdKTh0tyCF1lEL+rVi1918BsPgW9Da84AH/w31lWhDNf9A+yE7LM4YoO+aBvO67eeyd/oseOwEVQ==}
+    engines: {node: '>=20.6'}
+    peerDependencies:
+      '@diagrammo/dgmo': ^0.15.0
+
   remark-gfm@4.0.1:
     resolution: {integrity: sha512-1quofZ2RQ9EWdeN34S79+KExV1764+wCUGop5CPL1WGdD0ocPpu91lzPGbwWMECpEpd42kJGQwzRfyov9j4yNg==}
 
@@ -2628,18 +2634,15 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lezer/common@1.5.2':
-    optional: true
+  '@lezer/common@1.5.2': {}
 
   '@lezer/highlight@1.2.3':
     dependencies:
       '@lezer/common': 1.5.2
-    optional: true
 
   '@lezer/lr@1.4.10':
     dependencies:
       '@lezer/common': 1.5.2
-    optional: true
 
   '@mdx-js/mdx@3.1.1':
     dependencies:
@@ -4142,6 +4145,15 @@ snapshots:
       hast-util-to-estree: 3.1.3
     transitivePeerDependencies:
       - supports-color
+
+  remark-dgmo@0.2.2(@diagrammo/dgmo@0.15.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
+    dependencies:
+      '@diagrammo/dgmo': 0.15.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
+      '@lezer/common': 1.5.2
+      '@lezer/highlight': 1.2.3
+      '@lezer/lr': 1.4.10
+      estree-util-value-to-estree: 3.5.0
+      unist-util-visit: 5.1.0
 
   remark-gfm@4.0.1:
     dependencies:

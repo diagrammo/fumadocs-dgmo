@@ -83,7 +83,7 @@
     "react": { "optional": false }
   },
   "dependencies": {
-    "remark-dgmo": "link:../remark-dgmo"
+    "remark-dgmo": "^0.2.2"
   },
   "devDependencies": {
     "@diagrammo/dgmo": "^0.15.0",
