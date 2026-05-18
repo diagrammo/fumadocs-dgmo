@@ -6,7 +6,6 @@ A minimal Fumadocs site (Next.js app router) wired with `fumadocs-dgmo`,
 1. **Consumer copy-paste template.** If you want to use this wrapper in
    your own Fumadocs site, the files here are the smallest working
    configuration. The non-obvious bits:
-
    - **`source.config.ts`** wraps `mdxOptions` with `withDgmo()`. That's
      the entire MDX-pipeline integration. `withDgmo` defaults
      `remark-dgmo`'s `mdx` option to `true` so rendered blocks come
@@ -25,7 +24,6 @@ A minimal Fumadocs site (Next.js app router) wired with `fumadocs-dgmo`,
 
 2. **Test fixture for plugin development.** [`content/docs/diagrams.mdx`](./content/docs/diagrams.mdx)
    exercises four canonical shapes:
-
    - Plain block under `colorMode: 'auto'` — dual-render with the
      theme toggle swapping between the two SVGs
    - Colored sequence diagram with `tag` blocks — exercises palette

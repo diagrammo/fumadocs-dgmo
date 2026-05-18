@@ -48,7 +48,10 @@ describe('fumadocs-dgmo built artifacts', () => {
     // prose, so strip /* … */ comments before checking that the actual
     // rules use the rewritten form.
     const cssPath = require.resolve('fumadocs-dgmo/client.css');
-    const rules = readFileSync(cssPath, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const rules = readFileSync(cssPath, 'utf8').replace(
+      /\/\*[\s\S]*?\*\//g,
+      ''
+    );
     expect(rules).toMatch(/\bhtml\.dark\b/);
     expect(rules).not.toMatch(/\[data-theme="dark"\]/);
   });
@@ -60,9 +63,7 @@ describe('fumadocs-dgmo built artifacts', () => {
     // styling silently.
     const clientPath = require.resolve('fumadocs-dgmo/client');
     const body = readFileSync(clientPath, 'utf8');
-    expect(body).toMatch(
-      /import\s+["']fumadocs-dgmo\/client\.css["']/
-    );
+    expect(body).toMatch(/import\s+["']fumadocs-dgmo\/client\.css["']/);
   });
 
   it('the client bundle inlines remark-dgmo (no bare specifier left over)', () => {

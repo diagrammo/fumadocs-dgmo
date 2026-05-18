@@ -6,7 +6,9 @@ function unwrap(plugin: unknown): unknown {
   return Array.isArray(plugin) ? plugin[0] : plugin;
 }
 function pluginOpts(plugin: unknown): Record<string, unknown> | undefined {
-  return Array.isArray(plugin) ? (plugin[1] as Record<string, unknown>) : undefined;
+  return Array.isArray(plugin)
+    ? (plugin[1] as Record<string, unknown>)
+    : undefined;
 }
 
 describe('withDgmo', () => {

@@ -4,10 +4,7 @@ import { source } from '@/lib/source';
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout
-      tree={source.pageTree}
-      nav={{ title: 'fumadocs-dgmo fixture' }}
-    >
+    <DocsLayout tree={source.pageTree} nav={{ title: 'fumadocs-dgmo fixture' }}>
       {children}
     </DocsLayout>
   );

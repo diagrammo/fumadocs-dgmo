@@ -112,7 +112,9 @@ if (referenced.length === 0) {
       );
     }
   }
-  console.log(`✓ ${referenced.length} per-page JS chunks free of jsdom sentinel`);
+  console.log(
+    `✓ ${referenced.length} per-page JS chunks free of jsdom sentinel`
+  );
 
   const totalGzipped = referenced.reduce(
     (acc, chunk) =>
@@ -142,7 +144,9 @@ if (referenced.length === 0) {
         `bundle-size delta ${delta} bytes exceeds ${BUDGET_BYTES} budget (baseline ${prev}, current ${totalGzipped})`
       );
     }
-    console.log(`✓ Bundle size ${totalGzipped} (Δ${delta} bytes) within ±${BUDGET_BYTES}`);
+    console.log(
+      `✓ Bundle size ${totalGzipped} (Δ${delta} bytes) within ±${BUDGET_BYTES}`
+    );
   }
 }
 

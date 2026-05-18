@@ -1,6 +1,6 @@
 # fumadocs-dgmo
 
-Render [DGMO](https://diagrammo.app) diagrams from `` ```dgmo `` fenced code blocks in your [Fumadocs](https://fumadocs.dev) site at build time. Powered by [`@diagrammo/dgmo`](https://www.npmjs.com/package/@diagrammo/dgmo) and the framework-agnostic [`remark-dgmo`](https://www.npmjs.com/package/remark-dgmo) core. Zero client JavaScript by default (one tiny re-binder fires on route change).
+Render [DGMO](https://diagrammo.app) diagrams from ` ```dgmo ` fenced code blocks in your [Fumadocs](https://fumadocs.dev) site at build time. Powered by [`@diagrammo/dgmo`](https://www.npmjs.com/package/@diagrammo/dgmo) and the framework-agnostic [`remark-dgmo`](https://www.npmjs.com/package/remark-dgmo) core. Zero client JavaScript by default (one tiny re-binder fires on route change).
 
 Every diagram is rendered twice at build time (light + dark palettes) and follows Fumadocs UI's color-mode toggle through a shipped, `.dark`-rewritten stylesheet.
 

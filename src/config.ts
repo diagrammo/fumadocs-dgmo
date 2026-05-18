@@ -13,7 +13,9 @@ import type { DgmoOptions } from 'remark-dgmo';
  */
 export type RemarkPlugin = unknown;
 export type RemarkPluginsArray = RemarkPlugin[];
-export type RemarkPluginsFn = (defaults: RemarkPluginsArray) => RemarkPluginsArray;
+export type RemarkPluginsFn = (
+  defaults: RemarkPluginsArray
+) => RemarkPluginsArray;
 export type RemarkPluginsField = RemarkPluginsArray | RemarkPluginsFn;
 
 // Loosely-typed mirror of `fumadocs-mdx`'s `MDXPresetOptions`. We accept and
