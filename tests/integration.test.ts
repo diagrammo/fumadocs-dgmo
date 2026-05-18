@@ -87,8 +87,8 @@ describe('tests/fixture/source.config.ts (withDgmo integration)', () => {
     const mod = (await import(fixturePath)) as { default: any };
     const resolved = (await mod.default) as Record<string, any>;
 
-    expect(resolved.mdxOptions).toBeDefined();
-    const plugins = resolved.mdxOptions.remarkPlugins as unknown[];
+    expect(resolved['mdxOptions']).toBeDefined();
+    const plugins = resolved['mdxOptions'].remarkPlugins as unknown[];
     expect(Array.isArray(plugins)).toBe(true);
     expect(plugins.length).toBeGreaterThanOrEqual(1);
 
@@ -101,6 +101,6 @@ describe('tests/fixture/source.config.ts (withDgmo integration)', () => {
     expect(plugin).toBe(remarkDgmo);
     // Without `mdx: true`, fumadocs-mdx rejects the raw html nodes
     // remark-dgmo emits with "Cannot handle unknown node 'raw'".
-    expect(opts?.mdx).toBe(true);
+    expect(opts?.['mdx']).toBe(true);
   });
 });

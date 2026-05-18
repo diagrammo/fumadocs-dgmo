@@ -66,7 +66,7 @@ export function withDgmo(
   const dgmoOptions: DgmoOptions = { mdx: true, ...options.dgmo };
   const remarkInstance: RemarkPlugin = [remarkDgmo, dgmoOptions];
 
-  const existing = mdxOptions.remarkPlugins;
+  const existing = mdxOptions['remarkPlugins'];
 
   // Already wired — bail early. Identity match doesn't survive across
   // calls (we construct a new tuple each time), so we check by reference
