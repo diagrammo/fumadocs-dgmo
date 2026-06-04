@@ -1,5 +1,11 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "ignore": ["tests/fixture/**", "scripts/**"],
-  "ignoreDependencies": ["fumadocs-mdx"]
+  "ignoreDependencies": ["fumadocs-mdx"],
+  "ignoreExportsUsedInFile": true,
+  "rules": {
+    "duplicates": "off",
+    "exports": "warn",
+    "types": "warn"
+  }
 }
