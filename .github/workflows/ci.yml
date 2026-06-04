@@ -23,6 +23,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # knip/jscpd/depcheck analyze source + package.json only — no dist or
+      # fixture stub needed, so the trio runs right after install.
+      - name: Hygiene checks (dead code, duplication, deps)
+        run: pnpm check:all
+
       # Build first so tests/integration.test.ts can resolve
       # `fumadocs-dgmo/config` and `fumadocs-dgmo/client` through the
       # exports map (the targets live under dist/, which `pretest` would
