@@ -2,8 +2,14 @@ import { createMDX } from 'fumadocs-mdx/next';
 
 const withMDX = createMDX();
 
+// `basePath`/`assetPrefix` are env-gated so the e2e fixture build (no env)
+// stays at root and its committed baseline holds. The Pages workflow sets
+// PAGES_BASE to the repo subpath so chunks resolve under github.io/<repo>.
+const pagesBase = process.env.PAGES_BASE;
+
 const config = {
   reactStrictMode: true,
+  ...(pagesBase ? { basePath: pagesBase, assetPrefix: pagesBase } : {}),
   // Static export gives us a flat `out/` directory of pre-rendered HTML
   // and asset chunks that scripts/assert-build-output.mjs can scan
   // without needing a running Node runtime. Fumadocs UI's `[[...slug]]`
