@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       remark-dgmo:
-        specifier: ^0.3.3
-        version: 0.3.3(@diagrammo/dgmo@0.24.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
+        specifier: ^0.3.4
+        version: 0.3.4(@diagrammo/dgmo@0.24.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
     devDependencies:
       '@diagrammo/dgmo':
         specifier: ^0.24.0
@@ -2996,10 +2996,6 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.14:
-    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
-    engines: {node: ^10 || ^12 || >=14}
-
   postcss@8.5.15:
     resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
     engines: {node: ^10 || ^12 || >=14}
@@ -3112,8 +3108,8 @@ packages:
   rehype-recma@1.0.0:
     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
 
-  remark-dgmo@0.3.3:
-    resolution: {integrity: sha512-VdFL1qAjjKGQw3dHlIpKgCxogz+8QTxC5cQ67OZbxVzJ/gP7C+b/Wy1SNxCrXDAHpVV42gYiZUyRNRnIlfksWw==}
+  remark-dgmo@0.3.4:
+    resolution: {integrity: sha512-9X9vFfH7CgdUSeiYCC81lhymjhBC+PY8aB/I9QQBvLsvvewwUqt+WkFEiOb0j1KeAOLNLearG96yNbC8G0b3Ug==}
     engines: {node: '>=20.6'}
     peerDependencies:
       '@diagrammo/dgmo': ^0.24.0
@@ -6640,12 +6636,6 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.14:
-    dependencies:
-      nanoid: 3.3.12
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
-
   postcss@8.5.15:
     dependencies:
       nanoid: 3.3.12
@@ -6800,7 +6790,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  remark-dgmo@0.3.3(@diagrammo/dgmo@0.24.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
+  remark-dgmo@0.3.4(@diagrammo/dgmo@0.24.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
     dependencies:
       '@diagrammo/dgmo': 0.24.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
       '@lezer/common': 1.5.2
@@ -7252,7 +7242,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.14
+      postcss: 8.5.15
       rolldown: 1.0.1
       tinyglobby: 0.2.16
     optionalDependencies:
