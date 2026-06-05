@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+/* Shared Nord page theme (palette + --dgmo-* tokens + light/dark). Imported
+   after the Fumadocs presets so its :root tokens are available to the aliases
+   below. Dark mode is keyed on `.dark` (next-themes), which theme-nord also
+   targets. */
+@import 'remark-dgmo/theme-nord.css';
 
 /* Tell Tailwind to scan Fumadocs UI's compiled JS for class names so
    utility classes used inside its components survive the JIT prune. */
@@ -8,3 +13,23 @@
 
 /* fumadocs-dgmo's stylesheet is auto-imported by the <DgmoClient />
    component mounted in app/layout.tsx — no manual @import needed. */
+
+/* Alias Fumadocs UI's tokens to the shared --dgmo-* ones so the nav, sidebar,
+   surfaces, and accents follow Nord. Set in BOTH :root and .dark (each
+   referencing --dgmo-*, which theme-nord flips by mode) so we override
+   fumadocs's own light AND dark values. */
+:root,
+.dark {
+  --color-fd-background: var(--dgmo-bg);
+  --color-fd-foreground: var(--dgmo-fg);
+  --color-fd-card: var(--dgmo-surface);
+  --color-fd-card-foreground: var(--dgmo-fg);
+  --color-fd-popover: var(--dgmo-surface);
+  --color-fd-popover-foreground: var(--dgmo-fg);
+  --color-fd-muted: var(--dgmo-elevated);
+  --color-fd-muted-foreground: var(--dgmo-muted);
+  --color-fd-border: var(--dgmo-border);
+  --color-fd-primary: var(--dgmo-accent);
+  --color-fd-accent: var(--dgmo-elevated);
+  --color-fd-accent-foreground: var(--dgmo-fg);
+}
