@@ -1,6 +1,6 @@
 {
   "name": "fumadocs-dgmo",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Fumadocs integration to render DGMO diagrams from fenced code blocks at build time. Two-step install: `withDgmo()` in source.config.ts plus `<DgmoClient />` in app/layout.tsx — the client component handles route-change rebinding and auto-imports the theme-aware stylesheet.",
   "license": "MIT",
   "repository": {
@@ -80,7 +80,7 @@
     "prepublishOnly": "pnpm build && pnpm test"
   },
   "peerDependencies": {
-    "@diagrammo/dgmo": "^0.27.0",
+    "@diagrammo/dgmo": "^0.28.0",
     "fumadocs-mdx": "^15.0.0",
     "next": "^15.0.0 || ^16.0.0",
     "react": "^19.0.0"
@@ -97,10 +97,10 @@
     }
   },
   "dependencies": {
-    "remark-dgmo": "^0.3.6"
+    "remark-dgmo": "^0.3.7"
   },
   "devDependencies": {
-    "@diagrammo/dgmo": "^0.27.0",
+    "@diagrammo/dgmo": "^0.28.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
