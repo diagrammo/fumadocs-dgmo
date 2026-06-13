@@ -80,7 +80,7 @@
     "prepublishOnly": "pnpm build && pnpm test"
   },
   "peerDependencies": {
-    "@diagrammo/dgmo": "^0.28.0",
+    "@diagrammo/dgmo": "^0.29.0",
     "fumadocs-mdx": "^15.0.0",
     "next": "^15.0.0 || ^16.0.0",
     "react": "^19.0.0"
@@ -97,10 +97,10 @@
     }
   },
   "dependencies": {
-    "remark-dgmo": "^0.3.7"
+    "remark-dgmo": "^0.3.8"
   },
   "devDependencies": {
-    "@diagrammo/dgmo": "^0.28.0",
+    "@diagrammo/dgmo": "^0.29.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
