@@ -38,7 +38,13 @@ if (!fm) {
 // upstream fences are bare `dgmo` (diagram mode), which ships no footer at all.
 const body = showcase
   .replace(/^#[^\n]*\n/, '')
-  .replace(/^```dgmo$/gm, '```dgmo showcase');
+  .replace(/^```dgmo$/gm, '```dgmo showcase')
+  // Strip HTML comments (`<!-- … -->`). Fumadocs compiles `.mdx` with the MDX
+  // (JSX) parser, which rejects `<!` as a malformed tag ("Unexpected character
+  // `!` before name"). The upstream all-chart-types.md carries one such inline
+  // comment; it renders to nothing anyway. Every other `<`/`{` lives inside a
+  // ```dgmo fence, which MDX treats as opaque, so no further sanitizing needed.
+  .replace(/<!--[\s\S]*?-->/g, '');
 
 writeFileSync(pagePath, `${fm[0]}\n${body}`);
 console.log(`composed ${body.length} bytes of showcase into ${pagePath}`);
