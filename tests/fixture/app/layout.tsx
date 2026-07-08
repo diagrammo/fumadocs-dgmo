@@ -8,10 +8,9 @@ import type { ReactNode } from 'react';
 const base = process.env.PAGES_BASE || '';
 
 export const metadata = {
-  title: {
-    default: 'Diagrammo × Fumadocs',
-    template: '%s · Diagrammo × Fumadocs',
-  },
+  // Uniform brand tab title across every showcase page (generateMetadata omits
+  // each page's own title so this default always wins).
+  title: 'Diagrammo × Fumadocs',
   description: 'Fumadocs site exercising the dgmo wrapper.',
   icons: {
     icon: [

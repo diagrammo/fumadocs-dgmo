@@ -37,8 +37,9 @@ export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) notFound();
+  // Omit the page's own title so the root layout's "Diagrammo × Fumadocs"
+  // default is the tab title on every showcase page.
   return {
-    title: page.data.title,
     description: page.data.description,
   };
 }
