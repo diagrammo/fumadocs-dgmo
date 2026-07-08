@@ -1,50 +1,161 @@
 #!/usr/bin/env node
-// Compose the GitHub Pages showcase page.
+// Compose the GitHub Pages showcase into a Fumadocs page TREE.
 //
-// Fetches dgmo-content's all-chart-types.md and splices its body beneath the
-// target fixture page's existing frontmatter — reusing the page's layout and
-// `remark-dgmo/client.css` wiring untouched. CI-only: the rewritten page is
-// built and deployed but never committed.
+// Fetches dgmo-content's all-chart-types.md and explodes it into one page per
+// chart type, grouped into a folder per top-level category. Fumadocs derives
+// its left-hand nav from the file tree (one entry per `.mdx`, one collapsible
+// group per folder), so every chart type becomes a sidebar link instead of a
+// single "Diagrams" page whose charts only show up in the right-hand TOC.
 //
-// Usage: node scripts/compose-showcase.mjs <fixture-page-path>
-import { readFileSync, writeFileSync } from 'node:fs';
+// Each generated page sets `full: true`, which the fixture's page renderer
+// forwards to <DocsPage full>, hiding the per-page "On this page" TOC — the
+// nav lives entirely on the left.
+//
+// CI-only: the rewritten tree is built and deployed but never committed. Set
+// SHOWCASE_SRC=<path> to compose from a local markdown file instead of the
+// network (used for local verification).
+//
+// Usage: node scripts/compose-showcase.mjs <fixture-docs-dir>
+//        (a path ending in .mdx is accepted for backwards compat — its parent
+//         directory is used as the docs root.)
+import { readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
 const RAW =
   'https://raw.githubusercontent.com/diagrammo/dgmo-content/main/examples/all-chart-types.md';
 
-const pagePath = process.argv[2];
-if (!pagePath) {
-  console.error('usage: compose-showcase.mjs <fixture-page-path>');
+const arg = process.argv[2];
+if (!arg) {
+  console.error('usage: compose-showcase.mjs <fixture-docs-dir>');
   process.exit(1);
 }
+// Accept either the docs dir or a page path inside it (legacy call site).
+const docsDir = arg.endsWith('.mdx') ? dirname(arg) : arg;
 
-const res = await fetch(RAW);
-if (!res.ok) {
-  console.error(`fetch ${RAW} failed: ${res.status} ${res.statusText}`);
-  process.exit(1);
+const src = process.env.SHOWCASE_SRC;
+const showcase = src
+  ? readFileSync(src, 'utf8')
+  : await (async () => {
+      const res = await fetch(RAW);
+      if (!res.ok) {
+        console.error(`fetch ${RAW} failed: ${res.status} ${res.statusText}`);
+        process.exit(1);
+      }
+      return res.text();
+    })();
+
+// ---- Parse into categories (h2) → charts (h3) --------------------------------
+const slug = (s) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+// Turn a heading into a clean nav/frontmatter title: strip trailing
+// parenthetical qualifiers so the sidebar stays scannable ("Bar Chart", not
+// "Bar Chart (stacked)"); keep the full text as the page's H1 via frontmatter.
+const clean = (s) => s.replace(/\s*[—-]\s*.*$/, '').trim();
+
+const lines = showcase.split('\n');
+const categories = [];
+let cat = null;
+let chart = null;
+let inFence = false;
+
+const flushChart = () => {
+  if (chart) {
+    // Trim trailing blank lines and stray `---` separators.
+    while (chart.body.length && /^(\s*|---)$/.test(chart.body.at(-1)))
+      chart.body.pop();
+    cat.charts.push(chart);
+    chart = null;
+  }
+};
+
+for (const line of lines) {
+  if (/^```/.test(line)) inFence = !inFence;
+
+  if (!inFence && /^##\s+/.test(line)) {
+    flushChart();
+    cat = { title: line.replace(/^##\s+/, '').trim(), charts: [], intro: [] };
+    categories.push(cat);
+    continue;
+  }
+  if (!inFence && /^###\s+/.test(line)) {
+    flushChart();
+    if (!cat) continue;
+    chart = { title: line.replace(/^###\s+/, '').trim(), body: [] };
+    continue;
+  }
+  if (chart) chart.body.push(line);
+  else if (cat) cat.intro.push(line);
 }
-const showcase = await res.text();
+flushChart();
 
-const page = readFileSync(pagePath, 'utf8');
-const fm = page.match(/^---\n[\s\S]*?\n---\n/);
-if (!fm) {
-  console.error(`no frontmatter block found in ${pagePath}`);
-  process.exit(1);
+// ---- Transform fences: force showcase mode; strip MDX-hostile comments -------
+const transform = (text) =>
+  text
+    .replace(/^```dgmo$/gm, '```dgmo showcase')
+    .replace(/<!--[\s\S]*?-->/g, '');
+
+// ---- Emit the tree -----------------------------------------------------------
+const fm = (title, extra = '') =>
+  `---\ntitle: ${JSON.stringify(title)}\nfull: true\n${extra}---\n\n`;
+
+// Wipe any previously-composed tree, then rebuild.
+for (const c of categories) {
+  try {
+    rmSync(join(docsDir, slug(c.title)), { recursive: true, force: true });
+  } catch {}
 }
 
-// Drop the source H1 — the page frontmatter title already serves as heading.
-// Force every ```dgmo fence into showcase mode so the deployed gallery actually
-// demonstrates the hover-reveal footer (source + copy + open-in-editor). The
-// upstream fences are bare `dgmo` (diagram mode), which ships no footer at all.
-const body = showcase
-  .replace(/^#[^\n]*\n/, '')
-  .replace(/^```dgmo$/gm, '```dgmo showcase')
-  // Strip HTML comments (`<!-- … -->`). Fumadocs compiles `.mdx` with the MDX
-  // (JSX) parser, which rejects `<!` as a malformed tag ("Unexpected character
-  // `!` before name"). The upstream all-chart-types.md carries one such inline
-  // comment; it renders to nothing anyway. Every other `<`/`{` lives inside a
-  // ```dgmo fence, which MDX treats as opaque, so no further sanitizing needed.
-  .replace(/<!--[\s\S]*?-->/g, '');
+const rootPages = ['index'];
 
-writeFileSync(pagePath, `${fm[0]}\n${body}`);
-console.log(`composed ${body.length} bytes of showcase into ${pagePath}`);
+// Landing page.
+writeFileSync(
+  join(docsDir, 'index.mdx'),
+  `${fm('Diagrams', 'description: "Every DGMO chart type, rendered through fumadocs-dgmo."\n')}` +
+    `This showcase renders every DGMO chart type through the \`fumadocs-dgmo\` + ` +
+    `\`remark-dgmo\` pipeline. Pick a chart type from the sidebar.\n`,
+);
+
+for (const c of categories) {
+  const dir = slug(c.title);
+  mkdirSync(join(docsDir, dir), { recursive: true });
+  rootPages.push(dir);
+
+  const chartPages = [];
+  for (const ch of c.charts) {
+    const cs = slug(ch.title);
+    chartPages.push(cs);
+    const body = transform(ch.body.join('\n')).trim();
+    writeFileSync(
+      join(docsDir, dir, `${cs}.mdx`),
+      `${fm(clean(ch.title))}${body}\n`,
+    );
+  }
+
+  // Folder meta: label + ordered chart pages.
+  writeFileSync(
+    join(docsDir, dir, 'meta.json'),
+    `${JSON.stringify({ title: c.title, pages: chartPages }, null, 2)}\n`,
+  );
+}
+
+// Root meta: landing page then category folders in source order.
+writeFileSync(
+  join(docsDir, 'meta.json'),
+  `${JSON.stringify({ title: 'Diagrams', pages: rootPages }, null, 2)}\n`,
+);
+
+// Remove the seed single-page fixture so it doesn't shadow index.mdx.
+try {
+  rmSync(arg.endsWith('.mdx') ? arg : join(docsDir, 'diagrams.mdx'), {
+    force: true,
+  });
+} catch {}
+
+const nCharts = categories.reduce((n, c) => n + c.charts.length, 0);
+console.log(
+  `composed ${nCharts} chart pages across ${categories.length} categories into ${docsDir}`,
+);

@@ -39,14 +39,14 @@ jobs:
       - name: Install fixture deps
         run: cd tests/fixture && pnpm install --no-frozen-lockfile
 
-      - name: Compose showcase page (all chart types from dgmo-content)
-        run: node scripts/compose-showcase.mjs tests/fixture/content/docs/diagrams.mdx
+      - name: Compose showcase tree (all chart types from dgmo-content)
+        run: node scripts/compose-showcase.mjs tests/fixture/content/docs
 
       - name: Build site
         run: cd tests/fixture && pnpm exec next build --webpack
 
       - name: Root redirect to showcase
-        run: printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./docs/diagrams.html">' > tests/fixture/out/index.html
+        run: printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./docs.html">' > tests/fixture/out/index.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
