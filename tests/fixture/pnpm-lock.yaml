@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@diagrammo/dgmo':
-        specifier: ^0.48.1
-        version: 0.48.1(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
+        specifier: ^0.49.0
+        version: 0.49.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
       fumadocs-core:
         specifier: ^16.0.0
         version: 16.8.11(@mdx-js/mdx@3.1.1)(@types/estree-jsx@1.0.5)(@types/hast@3.0.4)(@types/mdast@4.0.4)(@types/react@19.2.14)(lucide-react@1.16.0(react@19.2.6))(next@16.2.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(zod@4.4.3)
@@ -33,8 +33,8 @@ importers:
         specifier: ^19.0.0
         version: 19.2.6(react@19.2.6)
       remark-dgmo:
-        specifier: ^0.5.1
-        version: 0.5.1(@diagrammo/dgmo@0.48.1(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
+        specifier: ^0.6.0
+        version: 0.6.0(@diagrammo/dgmo@0.49.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.0.0
@@ -122,8 +122,8 @@ packages:
   '@dagrejs/graphlib@4.0.1':
     resolution: {integrity: sha512-IvcV6FduIIAmLwnH+yun+QtV36SC7mERqa86aClNqmMN09WhmPPYU8ckHrZBozErf+UvHPWOTJYaGYiIcs0DgA==}
 
-  '@diagrammo/dgmo@0.48.1':
-    resolution: {integrity: sha512-WnvGgm5lhFuBEWldoxEaybMCSNmV3TKdQx8oo2ik4sg+lSMMZoY1bN3FAftRbkgiMFMWVxsCD/ObLZbtieV1FA==}
+  '@diagrammo/dgmo@0.49.0':
+    resolution: {integrity: sha512-zaFRrw9hYfk7H3ypkDsbAgtZnFuENzLOqNfQWmDrjnL9QU0W4yRouOnd2QqLPT2To/loOBB9psf0aFM/XavRGw==}
     engines: {node: '>=20.6'}
     hasBin: true
     peerDependencies:
@@ -2025,8 +2025,8 @@ packages:
   rehype-recma@1.0.0:
     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
 
-  remark-dgmo@0.5.1:
-    resolution: {integrity: sha512-Yho/dMi/vdFyCjn+9WnYKpxraEXs4Q+KChFyVhU7ba0bQuNaaS1FMEO/rv3y+HY2Nl72Vo7IFDZiVCHKLeiudg==}
+  remark-dgmo@0.6.0:
+    resolution: {integrity: sha512-DTuBVwFtMkJj3+IMml7JNStnGaYNb+kKuwReGOGv1nJaJvccip6qUI4RA8Gf+jyI0+n5SFO883LKltH2FYARGw==}
     engines: {node: '>=20.6'}
     peerDependencies:
       '@diagrammo/dgmo': '>=0.45.0 <1'
@@ -2313,7 +2313,7 @@ snapshots:
 
   '@dagrejs/graphlib@4.0.1': {}
 
-  '@diagrammo/dgmo@0.48.1(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)':
+  '@diagrammo/dgmo@0.49.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)':
     dependencies:
       '@dagrejs/dagre': 3.0.0
       '@resvg/resvg-js': 2.6.2
@@ -4378,9 +4378,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  remark-dgmo@0.5.1(@diagrammo/dgmo@0.48.1(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
+  remark-dgmo@0.6.0(@diagrammo/dgmo@0.49.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
     dependencies:
-      '@diagrammo/dgmo': 0.48.1(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
+      '@diagrammo/dgmo': 0.49.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
       '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
       '@lezer/lr': 1.4.10
