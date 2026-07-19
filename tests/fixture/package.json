@@ -10,7 +10,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@diagrammo/dgmo": ">=0.50.0 <1",
+    "@diagrammo/dgmo": "^0.53.0",
     "fumadocs-core": "^16.0.0",
     "fumadocs-dgmo": "link:../..",
     "fumadocs-mdx": "^15.0.0",
