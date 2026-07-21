@@ -1,7 +1,8 @@
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
+import { Banner } from 'fumadocs-ui/components/banner';
 import type { ReactNode } from 'react';
 import { source } from '@/lib/source';
-import { EmbedBanner } from './embed-banner';
+import { EmbedBannerLink, EMBED_BANNER_CSS } from './embed-banner';
 
 // `basePath`-aware asset href: on GitHub Pages the site is served under
 // /fumadocs-dgmo, in local dev at the root. Mirror the favicon handling in the
@@ -16,7 +17,10 @@ const SITE = 'https://diagrammo.app';
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
-      <EmbedBanner />
+      <style dangerouslySetInnerHTML={{ __html: EMBED_BANNER_CSS }} />
+      <Banner className="dgmo-fd-banner">
+        <EmbedBannerLink />
+      </Banner>
       <DocsLayout
         tree={source.pageTree}
         nav={{
