@@ -1,7 +1,7 @@
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
-import { Banner } from 'fumadocs-ui/components/banner';
 import type { ReactNode } from 'react';
 import { source } from '@/lib/source';
+import { EmbedBanner } from './embed-banner';
 
 // `basePath`-aware asset href: on GitHub Pages the site is served under
 // /fumadocs-dgmo, in local dev at the root. Mirror the favicon handling in the
@@ -16,18 +16,7 @@ const SITE = 'https://diagrammo.app';
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
-      <Banner id="diagrammo-showcase" variant="rainbow">
-        <span>
-          <strong>Diagrammo</strong> turns plain text into diagrams — this is a
-          live showcase of every chart type.{' '}
-          <a
-            href={SITE}
-            style={{ textDecoration: 'underline', fontWeight: 600 }}
-          >
-            Get started at diagrammo.app&nbsp;→
-          </a>
-        </span>
-      </Banner>
+      <EmbedBanner />
       <DocsLayout
         tree={source.pageTree}
         nav={{
