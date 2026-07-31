@@ -9,8 +9,8 @@ Shared wrapper contract: [`../remark-dgmo/WRAPPER-CONVENTIONS.md`](../remark-dgm
 
 ## Versions — read `package.json`
 
-- `remark-dgmo` `^0.10.0` (astro-dgmo is on `^0.11.0`; this one has not moved)
-- peers: `@diagrammo/dgmo` `>=0.45.0 <1`, `fumadocs-mdx` `^15`, `next` `^15 || ^16`, `react` `^19`
+- `remark-dgmo` `^0.11.0` — level with the other four wrappers (checked 2026-07-31)
+- peers: `@diagrammo/dgmo` `>=0.57.0 <1`, `fumadocs-mdx` `^15`, `next` `^15 || ^16`, `react` `^19`
 - Caret on a `0.x` dep pins the **minor** — a `remark-dgmo` minor needs an explicit bump here
 
 ## Host specifics
