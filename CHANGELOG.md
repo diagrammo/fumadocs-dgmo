@@ -3,7 +3,7 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
-## Unreleased
+## 0.8.0
 
 **🔴 Live links: renamed keyword, renamed option, and now ON by default.** All
 three arrive through `remark-dgmo` and all three are visible to a site that
