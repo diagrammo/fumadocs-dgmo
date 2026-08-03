@@ -9,8 +9,9 @@ Shared wrapper contract: [`../remark-dgmo/WRAPPER-CONVENTIONS.md`](../remark-dgm
 
 ## Versions — read `package.json`
 
-- `remark-dgmo` `^0.11.0` — level with the other four wrappers (checked 2026-07-31)
-- peers: `@diagrammo/dgmo` `>=0.57.0 <1`, `fumadocs-mdx` `^15`, `next` `^15 || ^16`, `react` `^19`
+- `remark-dgmo` `^0.12.0` — level with the other four wrappers (checked 2026-08-03)
+- peers: `@diagrammo/dgmo` `>=0.58.0 <1`, `fumadocs-mdx` `^15`, `next` `^15 || ^16`, `react` `^19`
+- `tests/fixture/` pins both **exactly** (`0.12.0` / `0.59.0`) rather than by range, so the Pages showcase can never build against a `remark-dgmo` that predates live links
 - Caret on a `0.x` dep pins the **minor** — a `remark-dgmo` minor needs an explicit bump here
 
 ## Host specifics

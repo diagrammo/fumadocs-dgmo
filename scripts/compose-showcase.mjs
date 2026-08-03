@@ -21,8 +21,12 @@
 import { readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-const RAW =
-  'https://raw.githubusercontent.com/diagrammo/dgmo-content/main/examples/all-chart-types.md';
+const BASE =
+  'https://raw.githubusercontent.com/diagrammo/dgmo-content/main/examples';
+const RAW = `${BASE}/all-chart-types.md`;
+// Top billing: a live link is the one thing this integration does that a
+// screenshot in a docs folder cannot, so it becomes the landing page.
+const INTRO_RAW = `${BASE}/docs/live-links.md`;
 
 const arg = process.argv[2];
 if (!arg) {
@@ -32,17 +36,22 @@ if (!arg) {
 // Accept either the docs dir or a page path inside it (legacy call site).
 const docsDir = arg.endsWith('.mdx') ? dirname(arg) : arg;
 
+const get = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    console.error(`fetch ${url} failed: ${res.status} ${res.statusText}`);
+    process.exit(1);
+  }
+  return res.text();
+};
+
 const src = process.env.SHOWCASE_SRC;
-const showcase = src
-  ? readFileSync(src, 'utf8')
-  : await (async () => {
-      const res = await fetch(RAW);
-      if (!res.ok) {
-        console.error(`fetch ${RAW} failed: ${res.status} ${res.statusText}`);
-        process.exit(1);
-      }
-      return res.text();
-    })();
+const showcase = src ? readFileSync(src, 'utf8') : await get(RAW);
+
+// LIVE_LINK_SRC=<path> composes the intro from a local file instead of the
+// network — how this page is checked before the dgmo-content change is pushed.
+const introSrc = process.env.LIVE_LINK_SRC;
+const intro = introSrc ? readFileSync(introSrc, 'utf8') : await get(INTRO_RAW);
 
 // ---- Parse into categories (h2) → charts (h3) --------------------------------
 const slug = (s) =>
@@ -111,12 +120,26 @@ for (const c of categories) {
 
 const rootPages = ['index'];
 
-// Landing page.
+// Landing page — the live-link section leads, because it is the one thing this
+// integration does that pasting a picture into a docs folder cannot. Its fences
+// stay in diagram mode: the whole point is that the source is NOT on the page,
+// so a showcase footer offering "view source" would undercut it.
 writeFileSync(
   join(docsDir, 'index.mdx'),
-  `${fm('Diagrams', 'description: "Every DGMO chart type, rendered through fumadocs-dgmo."\n')}` +
-    `This showcase renders every DGMO chart type through the \`fumadocs-dgmo\` + ` +
-    `\`remark-dgmo\` pipeline. Pick a chart type from the sidebar.\n`,
+  `${fm('Live links', 'description: "A diagram whose source is not in this page — published from Diagrammo Cloud and always current."\n')}` +
+    // The shared file opens with `## A live link`, which the frontmatter title
+    // already says — drop it, then promote its `###` subsections to `##` so the
+    // page ToC is a flat list of real sections rather than orphan third-level
+    // headings hanging under nothing.
+    `${intro
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/^##[^\n]*\n/, '')
+      .replace(/^### /gm, '## ')
+      .trim()}\n\n` +
+    `## Every other chart type\n\n` +
+    `The rest of this showcase renders every DGMO chart type through the ` +
+    `\`fumadocs-dgmo\` + \`remark-dgmo\` pipeline, with its source written out ` +
+    `in full. Pick one from the sidebar.\n`,
 );
 
 for (const c of categories) {
