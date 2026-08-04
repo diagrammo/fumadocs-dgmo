@@ -97,7 +97,7 @@
     }
   },
   "dependencies": {
-    "remark-dgmo": "^0.13.1"
+    "remark-dgmo": "^0.13.2"
   },
   "devDependencies": {
     "@diagrammo/dgmo": "^0.58.0",
