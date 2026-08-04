@@ -33,8 +33,8 @@ importers:
         specifier: ^19.0.0
         version: 19.2.6(react@19.2.6)
       remark-dgmo:
-        specifier: 0.12.0
-        version: 0.12.0(@diagrammo/dgmo@0.59.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
+        specifier: 0.13.2
+        version: 0.13.2(@diagrammo/dgmo@0.59.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10))
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.0.0
@@ -2025,8 +2025,8 @@ packages:
   rehype-recma@1.0.0:
     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
 
-  remark-dgmo@0.12.0:
-    resolution: {integrity: sha512-tu8dU2OtQ/c3IMQliFggD+ofwaTpHPTBFGBLsXfxoTYalt3kTEXK987qRwtpusS1cHJuaPjE8zwhlvG+KANHgw==}
+  remark-dgmo@0.13.2:
+    resolution: {integrity: sha512-hrbi1Y1F5ix9ouiAj/iGiLLEyowKIDnYTg/oKzxW5DOzMtQ4xThERm3yivvmz7Rra28WCr6XvrUMGMMXjpiGpQ==}
     engines: {node: '>=20.6'}
     peerDependencies:
       '@diagrammo/dgmo': '>=0.58.0 <1'
@@ -4378,7 +4378,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  remark-dgmo@0.12.0(@diagrammo/dgmo@0.59.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
+  remark-dgmo@0.13.2(@diagrammo/dgmo@0.59.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)):
     dependencies:
       '@diagrammo/dgmo': 0.59.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
       '@lezer/common': 1.5.2
