@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "next build --webpack",
-    "dev": "if command -v claim-port >/dev/null 2>&1; then claim-port 4344 || exit 1; fi; next dev --webpack --port 4344",
-    "start": "if command -v claim-port >/dev/null 2>&1; then claim-port 4344 || exit 1; fi; next start --port 4344",
+    "dev": "if command -v claim-port >/dev/null 2>&1; then claim-port 4344 || { [ $? -eq 3 ] || exit 1; exit 0; }; fi; next dev --webpack --port 4344",
+    "start": "if command -v claim-port >/dev/null 2>&1; then claim-port 4344 || { [ $? -eq 3 ] || exit 1; exit 0; }; fi; next start --port 4344",
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
