@@ -66,6 +66,7 @@ export function withDgmo(
   // mdxJsxFlowElement (`<div dangerouslySetInnerHTML={…}/>`) that MDX
   // accepts. The user can still override via `options.dgmo.mdx = false`.
   const dgmoOptions: DgmoOptions = { mdx: true, ...options.dgmo };
+  noticeRenderClientRequired(dgmoOptions);
   const remarkInstance: RemarkPlugin = [remarkDgmo, dgmoOptions];
 
   const existing = mdxOptions['remarkPlugins'];
@@ -93,6 +94,37 @@ export function withDgmo(
   const arr = Array.isArray(existing) ? [...existing] : [];
   arr.unshift(remarkInstance);
   return { ...mdxOptions, remarkPlugins: arr };
+}
+
+let noticed = false;
+
+/**
+ * Say the second half out loud, once per build.
+ *
+ * `liveLink: { refresh: 'render' }` is a decision about what runs in a reader's
+ * browser, and this function only touches the MDX pipeline — Fumadocs mounts its
+ * own client tree, so nothing here can put a component in it. Until
+ * `<DgmoRenderClient />` is mounted the setting has no effect whatsoever, and
+ * the page falls back to the "This diagram has been updated" link.
+ *
+ * That silence is the whole defect this exists to close: through 0.8.1 the
+ * option was accepted and dropped, so a site believed it had turned re-rendering
+ * on. A build is the one moment somebody is demonstrably paying attention.
+ *
+ * Test seam: `resetRenderClientNotice()`.
+ */
+function noticeRenderClientRequired(dgmoOptions: DgmoOptions): void {
+  if (noticed) return;
+  if (dgmoOptions.liveLink?.refresh !== 'render') return;
+  noticed = true;
+  console.info(
+    '[fumadocs-dgmo] Live links are set to re-render in the browser. Mount `<DgmoRenderClient />` from `fumadocs-dgmo/client-render` in app/layout.tsx, beside `<DgmoClient />` — without it a diagram that has moved is linked to, not redrawn. Your Content-Security-Policy must also allow `connect-src https://api.diagrammo.app`.'
+  );
+}
+
+/** Test seam: reset the once-per-process notice. */
+export function resetRenderClientNotice(): void {
+  noticed = false;
 }
 
 function isDgmoEntry(entry: unknown): boolean {

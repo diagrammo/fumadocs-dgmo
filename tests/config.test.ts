@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import remarkDgmo from 'remark-dgmo';
-import { withDgmo } from '../src/config.ts';
+import { withDgmo, resetRenderClientNotice } from '../src/config.ts';
 
 function unwrap(plugin: unknown): unknown {
   return Array.isArray(plugin) ? plugin[0] : plugin;
@@ -83,5 +83,42 @@ describe('withDgmo', () => {
     // exactly one remarkDgmo entry survives the second wrap
     const dgmoCount = out.filter((e) => unwrap(e) === remarkDgmo).length;
     expect(dgmoCount).toBe(1);
+  });
+});
+
+/**
+ * The config half cannot mount a component, so `refresh: 'render'` needs a
+ * second step only the site owner can take. Before this notice existed the
+ * setting was accepted here and then dropped without a word.
+ */
+describe('refresh: render notice', () => {
+  beforeEach(() => {
+    resetRenderClientNotice();
+  });
+
+  it('names the component and the module to import it from', () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    withDgmo({}, { dgmo: { liveLink: { refresh: 'render' } } });
+    expect(info).toHaveBeenCalledOnce();
+    const message = String(info.mock.calls[0]?.[0]);
+    expect(message).toContain('DgmoRenderClient');
+    expect(message).toContain('fumadocs-dgmo/client-render');
+    info.mockRestore();
+  });
+
+  it('says nothing on the default, or on an explicit notify', () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    withDgmo();
+    withDgmo({}, { dgmo: { liveLink: { refresh: 'notify' } } });
+    expect(info).not.toHaveBeenCalled();
+    info.mockRestore();
+  });
+
+  it('warns once per build, not once per wrapped config', () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    withDgmo({}, { dgmo: { liveLink: { refresh: 'render' } } });
+    withDgmo({}, { dgmo: { liveLink: { refresh: 'render' } } });
+    expect(info).toHaveBeenCalledOnce();
+    info.mockRestore();
   });
 });

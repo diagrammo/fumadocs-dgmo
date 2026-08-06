@@ -49,6 +49,11 @@
       "import": "./dist/fumadocs-client.js",
       "default": "./dist/fumadocs-client.js"
     },
+    "./client-render": {
+      "types": "./dist/fumadocs-render-client.d.ts",
+      "import": "./dist/fumadocs-render-client.js",
+      "default": "./dist/fumadocs-render-client.js"
+    },
     "./client.css": "./dist/client.css"
   },
   "files": [
@@ -62,7 +67,7 @@
   },
   "scripts": {
     "build": "tsup && node scripts/build-css.mjs",
-    "postbuild": "test -f dist/client.css && test -f dist/fumadocs-client.js",
+    "postbuild": "test -f dist/client.css && test -f dist/fumadocs-client.js && test -f dist/fumadocs-render-client.js",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "pretest": "pnpm build",

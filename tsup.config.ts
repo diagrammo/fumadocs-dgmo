@@ -32,7 +32,10 @@ export default defineConfig([
     ],
   },
   {
-    entry: { 'fumadocs-client': 'src/fumadocs-client.tsx' },
+    entry: {
+      'fumadocs-client': 'src/fumadocs-client.tsx',
+      'fumadocs-render-client': 'src/fumadocs-render-client.tsx',
+    },
     format: ['esm'],
     // Use the build-only tsconfig (rootDir: ./src, no tests/) so tsc's
     // emit doesn't error on tests/ when resolving the

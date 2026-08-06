@@ -3,6 +3,26 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
+## Unreleased
+
+**`liveLink: { refresh: 'render' }` can now actually re-render, and saying it
+without doing it is no longer silent.** The setting was accepted here and had no
+effect: re-drawing a moved diagram needs the browser half of the renderer on the
+page, only `astro-dgmo` was putting it there, and nothing reported the gap. A
+site believed it had turned re-rendering on and kept getting the _"This diagram
+has been updated"_ link forever.
+
+- New `fumadocs-dgmo/client-render`, exporting `<DgmoRenderClient />`. Mount it
+  beside `<DgmoClient />` in `app/layout.tsx`. It is a second component rather
+  than a prop because a bundler resolves a static-analyzable dynamic import at
+  BUILD time — "lazy" says when a reader downloads the renderer, not whether
+  your site ships it. Kept in a module nobody imports by default, it costs a
+  site that has not opted in exactly nothing.
+- `withDgmo` now says, once per build, that the option needs that component —
+  naming both the component and the module to import it from.
+
+Nothing changes on the default (`refresh: 'notify'`).
+
 ## 0.8.1
 
 **Takes `remark-dgmo` 0.14.0, where the step that asks the Cloud what a pointer
@@ -51,8 +71,8 @@ the cache belongs in your repo so a clean CI checkout never depends on our
 uptime — but it is an unexplained directory until you know why it is there.
 
 With live links off, a `live-link` fence now renders a small card naming the
-diagram and linking through to it, plus a hover-revealed *"Show this diagram
-here"* link to the guide and a build warning naming the option and the source
+diagram and linking through to it, plus a hover-revealed _"Show this diagram
+here"_ link to the guide and a build warning naming the option and the source
 line. It is no longer an error block. See the
 [live links guide](https://diagrammo.app/docs/live-links/).
 
