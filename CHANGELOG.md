@@ -3,7 +3,7 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
-## Unreleased
+## 0.8.2
 
 **`liveLink: { refresh: 'render' }` can now actually re-render, and saying it
 without doing it is no longer silent.** The setting was accepted here and had no
