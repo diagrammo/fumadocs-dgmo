@@ -70,3 +70,16 @@ TypeScript  45
 Python       30
 Rust         25
 ```
+
+## Map with points of interest
+
+Maps need basemap outlines, which `remark-dgmo` supplies to every block —
+`dgmo` itself stopped reading them off the filesystem in 0.62.0. Both city
+labels should appear over drawn coastlines, not on an error card.
+
+```dgmo
+map Port Calls
+
+poi Denver
+poi Miami
+```

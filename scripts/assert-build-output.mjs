@@ -19,6 +19,8 @@
 //   4. Summed gzipped size of page-referenced JS chunks stays within
 //      100 KB of the committed baseline (or seeds the baseline on first
 //      run).
+//   5. The map fence on the diagrams page drew a real map — no error
+//      card, and both point-of-interest labels present in the SVG.
 //
 // Exit codes: 0 on pass, 1 on any failure.
 
@@ -45,6 +47,12 @@ const CHUNKS_DIR = resolve(FIXTURE, 'out/_next/static/chunks');
 const BASELINE = resolve(FIXTURE, 'baseline-bundle-size.json');
 const JSDOM_SENTINEL = 'http://www.w3.org/2000/xmlns/';
 const BUDGET_BYTES = 100 * 1024;
+// dgmo's error card renders these as SVG <text>; React re-serializes the
+// apostrophe as an entity, so match it in either form.
+const RENDER_ERROR_TEXT =
+  /Couldn(?:'|&#x27;|&#39;|&apos;)t render this diagram/;
+const NO_BASEMAP_TEXT = /no basemap data/i;
+const POI_LABELS = ['Denver', 'Miami'];
 
 function fail(msg) {
   console.error(`::error::${msg}`);
@@ -149,5 +157,42 @@ if (referenced.length === 0) {
     );
   }
 }
+
+// --- 5. Map fence drew a real map ---
+// Asserted on CONTENT, not structure, and deliberately so: a map with no
+// basemap data still emits a <figure> with dgmo-light/dgmo-dark wrappers
+// and an SVG inside it, so every structural check above passes while the
+// page shows dgmo's error card instead of a map. The rendered SVG text is
+// the only thing that tells a drawn map apart from that card. dgmo stopped
+// reading basemaps off the filesystem in 0.62.0; remark-dgmo supplies them
+// per block from 0.14.3, and this is what catches a wrapper pinned below
+// that.
+if (RENDER_ERROR_TEXT.test(html)) {
+  fail(
+    `built HTML contains dgmo's "Couldn't render this diagram" error card — ` +
+      `a fence on the diagrams page failed to render`
+  );
+}
+if (NO_BASEMAP_TEXT.test(html)) {
+  fail(
+    `built HTML contains "no basemap data" — remark-dgmo did not supply ` +
+      `basemap data to the map fence (needs remark-dgmo >= 0.14.3 with ` +
+      `@diagrammo/dgmo >= 0.62.0)`
+  );
+}
+// `Miami` is the load-bearing half of POI_LABELS, and the pair is deliberate:
+// the error card echoes the first three lines of the source it could not
+// render, so `Denver` (line 3) is present even in a broken build while `Miami`
+// (line 4) is not — measured against dgmo 0.66.0, not assumed. Do not
+// "simplify" this to one label, and do not reorder the fence's poi lines
+// without re-checking it.
+for (const label of POI_LABELS) {
+  if (!html.includes(label)) {
+    fail(`built HTML missing map point-of-interest label "${label}"`);
+  }
+}
+console.log(
+  `✓ map fence rendered with basemap data (${POI_LABELS.join(', ')} present, no error card)`
+);
 
 console.log('✓ fixture build output assertions pass');
