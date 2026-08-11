@@ -3,6 +3,14 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
+## 0.8.4
+
+**The licence names the company that now publishes this.** Diagrammo LLC
+exists as of August 2026, so the copyright line in `LICENSE` and the author
+field in `package.json` name it rather than an individual. Both ship inside
+the npm tarball, which is why this is a release rather than a repository
+tidy-up. No code changed.
+
 ## 0.8.3
 
 🔴 **The `@diagrammo/dgmo` peer floor rises to `>=0.61.0 <1`, correcting a range
