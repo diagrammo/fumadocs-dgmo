@@ -3,6 +3,25 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
+## 0.8.5
+
+**Verified against `@diagrammo/dgmo` 0.71.0 and `remark-dgmo` 0.14.4.** The
+`remark-dgmo` dependency moves to `^0.14.4` and the `@diagrammo/dgmo`
+devDependency to `>=0.71.0 <1`, so what this package is built and tested
+against is the pair a current site installs.
+
+Both ranges had been left where a satisfied one stops re-resolving: `^0.14.2`
+and `>=0.66.0 <1` were still true of everything newer, so no plain install ever
+reached past them, and every build and test run here went on resolving dgmo
+0.66.0 and `remark-dgmo` 0.14.3 while reporting success. A declared range says
+what is _allowed_, never what got _installed_ — the lockfile decides that, and
+it does not revisit an entry that already fits.
+
+The `@diagrammo/dgmo` peer range stays at `>=0.61.0 <1`. A peer floor here is
+set by which dgmo subpaths this package and `remark-dgmo` import, and no import
+changed — raising it would lock out sites this release still supports, for
+nothing. No code changed.
+
 ## 0.8.4
 
 **The licence names the company that now publishes this.** Diagrammo LLC
