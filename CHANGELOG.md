@@ -3,6 +3,13 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
+## 0.8.6
+
+**Verified against `@diagrammo/dgmo` 0.72.0 and `remark-dgmo` 0.14.5.** The dev
+range moves to `>=0.72.0 <1` and the `remark-dgmo` dependency to `^0.14.5`, so
+what the fixture builds against is what this release was checked on. The peer
+range is untouched: no new subpath import was added.
+
 ## 0.8.5
 
 **Verified against `@diagrammo/dgmo` 0.71.0 and `remark-dgmo` 0.14.4.** The
