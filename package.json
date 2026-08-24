@@ -106,7 +106,7 @@
     "remark-dgmo": "^0.14.5"
   },
   "devDependencies": {
-    "@diagrammo/dgmo": ">=0.72.0 <1",
+    "@diagrammo/dgmo": ">=0.74.0 <1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
