@@ -10,7 +10,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@diagrammo/dgmo": "0.66.0",
+    "@diagrammo/dgmo": "0.76.0",
     "fumadocs-core": "^16.0.0",
     "fumadocs-dgmo": "link:../..",
     "fumadocs-mdx": "^15.0.0",
@@ -18,7 +18,7 @@
     "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "remark-dgmo": "0.14.3"
+    "remark-dgmo": "0.15.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",

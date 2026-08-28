@@ -64,7 +64,17 @@ if (!existsSync(HTML_PATH)) fail(`Built HTML missing: ${HTML_PATH}`);
 const html = readFileSync(HTML_PATH, 'utf8');
 if (!/\bdgmo-light\b/.test(html)) fail('built HTML missing dgmo-light wrapper');
 if (!/\bdgmo-dark\b/.test(html)) fail('built HTML missing dgmo-dark wrapper');
-console.log('✓ HTML contains dgmo-light and dgmo-dark wrappers');
+// The dark wrapper ships `hidden` (@diagrammo/dgmo >= 0.76.0), so a page that
+// never loaded the stylesheet shows ONE diagram rather than both. It is
+// user-agent origin, so the color-mode rules checked further down still
+// override it. Fumadocs auto-imports the stylesheet through `<DgmoClient />`,
+// so this is the floor beneath that rather than the thing doing the work
+// (issue 507).
+if (!/<div class="dgmo-dark[^"]*"[^>]*\shidden>/.test(html))
+  fail('the dgmo-dark wrapper is not `hidden` — a page without the stylesheet would render every diagram twice (issue 507)');
+if (/<div class="dgmo-light[^"]*"[^>]*\shidden>/.test(html))
+  fail('the dgmo-light wrapper is `hidden` — it is the no-stylesheet default and must never be');
+console.log('✓ HTML contains dgmo-light and dgmo-dark wrappers, dark one hidden');
 
 // --- 2. CSS pipeline ---
 const cssCandidates = [];

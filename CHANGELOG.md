@@ -3,6 +3,33 @@
 Releases before 0.7.0 are documented at
 [github.com/diagrammo/fumadocs-dgmo/releases](https://github.com/diagrammo/fumadocs-dgmo/releases).
 
+## 0.9.0
+
+**Verified against `@diagrammo/dgmo` 0.76.0 and `remark-dgmo` 0.15.0.** The
+`remark-dgmo` dependency moves to `^0.15.0` — on a `0.x` version a caret locks
+the minor, so `^0.14.7` would have kept every consumer on the old stylesheet.
+The `@diagrammo/dgmo` peer range is untouched at `>=0.61.0 <1`; nothing here
+requires the newer library, it just makes the diagrams better behaved.
+
+### Fixed
+
+- **The dark wrapper now carries the `hidden` attribute** (emitted by
+  `@diagrammo/dgmo` 0.76.0), so a page that somehow loads no diagram CSS shows
+  the light diagram rather than both stacked. Fumadocs sites were never exposed
+  to this — `<DgmoClient />` has always auto-imported the stylesheet — but the
+  floor is worth having: a consumer who opts out, or wires the remark plugin by
+  hand, gets one diagram instead of two. See issue 507, reported from an Astro
+  site where the import was a manual step.
+
+### Changed
+
+- The build assertions now check that the dark wrapper is `hidden` and the
+  light one never is.
+- `scripts/build-css.mjs` still rewrites `[data-theme="dark"]` to `html.dark`,
+  and that is still load-bearing: `remark-dgmo` 0.15.0 added `html.dark` rules
+  for the two color-mode visibility rules only, while the lightbox background
+  and every `.dgmo-tok-*` source colour remain keyed on the attribute alone.
+
 ## 0.8.8
 
 **Verified against `@diagrammo/dgmo` 0.75.0 and `remark-dgmo` 0.14.7.** The dev range moves to
