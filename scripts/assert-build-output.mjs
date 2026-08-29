@@ -71,10 +71,16 @@ if (!/\bdgmo-dark\b/.test(html)) fail('built HTML missing dgmo-dark wrapper');
 // so this is the floor beneath that rather than the thing doing the work
 // (issue 507).
 if (!/<div class="dgmo-dark[^"]*"[^>]*\shidden>/.test(html))
-  fail('the dgmo-dark wrapper is not `hidden` — a page without the stylesheet would render every diagram twice (issue 507)');
+  fail(
+    'the dgmo-dark wrapper is not `hidden` — a page without the stylesheet would render every diagram twice (issue 507)'
+  );
 if (/<div class="dgmo-light[^"]*"[^>]*\shidden>/.test(html))
-  fail('the dgmo-light wrapper is `hidden` — it is the no-stylesheet default and must never be');
-console.log('✓ HTML contains dgmo-light and dgmo-dark wrappers, dark one hidden');
+  fail(
+    'the dgmo-light wrapper is `hidden` — it is the no-stylesheet default and must never be'
+  );
+console.log(
+  '✓ HTML contains dgmo-light and dgmo-dark wrappers, dark one hidden'
+);
 
 // --- 2. CSS pipeline ---
 const cssCandidates = [];

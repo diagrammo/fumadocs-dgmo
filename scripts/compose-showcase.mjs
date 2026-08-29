@@ -139,7 +139,7 @@ writeFileSync(
     `## Every other chart type\n\n` +
     `The rest of this showcase renders every DGMO chart type through the ` +
     `\`fumadocs-dgmo\` + \`remark-dgmo\` pipeline, with its source written out ` +
-    `in full. Pick one from the sidebar.\n`,
+    `in full. Pick one from the sidebar.\n`
 );
 
 for (const c of categories) {
@@ -154,21 +154,21 @@ for (const c of categories) {
     const body = transform(ch.body.join('\n')).trim();
     writeFileSync(
       join(docsDir, dir, `${cs}.mdx`),
-      `${fm(clean(ch.title))}${body}\n`,
+      `${fm(clean(ch.title))}${body}\n`
     );
   }
 
   // Folder meta: label + ordered chart pages.
   writeFileSync(
     join(docsDir, dir, 'meta.json'),
-    `${JSON.stringify({ title: c.title, pages: chartPages }, null, 2)}\n`,
+    `${JSON.stringify({ title: c.title, pages: chartPages }, null, 2)}\n`
   );
 }
 
 // Root meta: landing page then category folders in source order.
 writeFileSync(
   join(docsDir, 'meta.json'),
-  `${JSON.stringify({ title: 'Diagrams', pages: rootPages }, null, 2)}\n`,
+  `${JSON.stringify({ title: 'Diagrams', pages: rootPages }, null, 2)}\n`
 );
 
 // Remove the seed single-page fixture so it doesn't shadow index.mdx.
@@ -180,5 +180,5 @@ try {
 
 const nCharts = categories.reduce((n, c) => n + c.charts.length, 0);
 console.log(
-  `composed ${nCharts} chart pages across ${categories.length} categories into ${docsDir}`,
+  `composed ${nCharts} chart pages across ${categories.length} categories into ${docsDir}`
 );
