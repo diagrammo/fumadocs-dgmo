@@ -28,7 +28,7 @@ jobs:
 
       # knip/jscpd/depcheck analyze source + package.json only — no dist or
       # fixture stub needed, so the trio runs right after install.
-      - name: Hygiene checks (dead code, duplication, deps)
+      - name: Hygiene checks (formatting, dead code, duplication, deps)
         run: pnpm check:all
 
       # Build first so tests/integration.test.ts can resolve
