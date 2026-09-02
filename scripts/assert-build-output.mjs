@@ -64,19 +64,26 @@ if (!existsSync(HTML_PATH)) fail(`Built HTML missing: ${HTML_PATH}`);
 const html = readFileSync(HTML_PATH, 'utf8');
 if (!/\bdgmo-light\b/.test(html)) fail('built HTML missing dgmo-light wrapper');
 if (!/\bdgmo-dark\b/.test(html)) fail('built HTML missing dgmo-dark wrapper');
-// The dark wrapper ships `hidden` (@diagrammo/dgmo >= 0.76.0), so a page that
-// never loaded the stylesheet shows ONE diagram rather than both. It is
-// user-agent origin, so the color-mode rules checked further down still
-// override it. Fumadocs auto-imports the stylesheet through `<DgmoClient />`,
-// so this is the floor beneath that rather than the thing doing the work
-// (issue 507).
-if (!/<div class="dgmo-dark[^"]*"[^>]*\shidden>/.test(html))
+// The dark wrapper ships an inline `display:none` (@diagrammo/dgmo >= 0.82.0,
+// the `hidden` ATTRIBUTE before that), so a page that never loaded the
+// stylesheet shows ONE diagram rather than both. It moved off the attribute in
+// issue 647: Tailwind v4 hides [hidden] with !important from inside a cascade
+// layer, and a layered important declaration outranks an unlayered one at any
+// specificity, so the reveal could not win at any strength and every diagram on
+// such a host was blank in dark mode.
+// Fumadocs auto-imports the stylesheet through `<DgmoClient />`, so this is
+// the floor beneath that rather than the thing doing the work (issue 507).
+if (!/<div class="dgmo-dark[^"]*"[^>]*\sstyle="display:none">/.test(html))
   fail(
-    'the dgmo-dark wrapper is not `hidden` — a page without the stylesheet would render every diagram twice (issue 507)'
+    'the dgmo-dark wrapper is not inline-hidden — a page without the stylesheet would render every diagram twice (issue 507)'
   );
-if (/<div class="dgmo-light[^"]*"[^>]*\shidden>/.test(html))
+if (/<div class="dgmo-dark[^"]*"[^>]*\shidden[\s>]/.test(html))
   fail(
-    'the dgmo-light wrapper is `hidden` — it is the no-stylesheet default and must never be'
+    'the dgmo-dark wrapper carries the `hidden` attribute — Tailwind v4 pins it shut with a layered !important and the diagram goes blank in dark mode (issue 647)'
+  );
+if (/<div class="dgmo-light[^"]*"[^>]*\s(hidden[\s>]|style="display:none")/.test(html))
+  fail(
+    'the dgmo-light wrapper is hidden — it is the no-stylesheet default and must never be'
   );
 console.log(
   '✓ HTML contains dgmo-light and dgmo-dark wrappers, dark one hidden'
