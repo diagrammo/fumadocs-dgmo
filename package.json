@@ -71,7 +71,7 @@
     "postbuild": "test -f dist/client.css && test -f dist/fumadocs-client.js && test -f dist/fumadocs-render-client.js",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "pretest": "pnpm build",
+    "pretest": "pnpm build && node scripts/ensure-fixture-install.mjs",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
     "test:e2e": "pnpm build && cd tests/fixture && pnpm install --no-frozen-lockfile && rm -rf .next out && pnpm exec next build --webpack && node ../../scripts/assert-build-output.mjs",
