@@ -103,7 +103,7 @@
     }
   },
   "dependencies": {
-    "remark-dgmo": ">=0.15.5 <1"
+    "remark-dgmo": ">=0.15.6 <1"
   },
   "devDependencies": {
     "@diagrammo/dgmo": ">=0.83.0 <1",

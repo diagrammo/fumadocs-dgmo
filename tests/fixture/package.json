@@ -18,7 +18,7 @@
     "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "remark-dgmo": "0.15.5"
+    "remark-dgmo": "0.15.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
