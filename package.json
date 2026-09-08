@@ -103,10 +103,10 @@
     }
   },
   "dependencies": {
-    "remark-dgmo": ">=0.15.6 <1"
+    "remark-dgmo": ">=0.15.7 <1"
   },
   "devDependencies": {
-    "@diagrammo/dgmo": ">=0.83.0 <1",
+    "@diagrammo/dgmo": ">=0.84.0 <1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
